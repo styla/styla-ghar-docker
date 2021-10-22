@@ -110,10 +110,11 @@ CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
 #
 ######
 
-RUN N_PREFIX=$HOME curl -L https://git.io/n-install | bash -s -- -q
+RUN N_PREFIX=/root curl -L https://git.io/n-install | bash -s -- -q
 
-RUN PREFIX=$HOME $HOME/n/bin/n 17.0.1
+RUN PREFIX=/root /root/n/bin/n 17.0.1
 
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s --
 
-ENV PATH="$HOME/n/bin:$PATH"
+ENV PATH="/root/n/bin:$PATH"
+ENV PATH="/root/.yarn/bin:$PATH"
