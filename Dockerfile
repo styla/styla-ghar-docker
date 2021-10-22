@@ -112,11 +112,9 @@ CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
 
 RUN N_PREFIX=/root curl -L https://git.io/n-install | bash -s -- -q
 
-RUN PREFIX=/root /root/n/bin/n 17.0.1
+RUN PREFIX=/root /root/n/bin/n 16.12.0
 
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s --
 
 ENV PATH="/root/n/bin:$PATH"
 ENV PATH="/root/.yarn/bin:$PATH"
-
-ENV NODE_OPTIONS=--openssl-legacy-provider
