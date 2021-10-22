@@ -118,3 +118,5 @@ RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s --
 
 ENV PATH="/root/n/bin:$PATH"
 ENV PATH="/root/.yarn/bin:$PATH"
+
+ENV NODE_OPTIONS=--openssl-legacy-provider
