@@ -77,6 +77,13 @@ configure_runner() {
         RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
     fi
 
+    if [ -n "${EPHEMERAL}" ]; then
+        echo "Ephemeral option is enabled"
+        _EPHEMERAL="--ephemeral"
+    else
+        _EPHEMERAL=""
+    fi
+
     echo "Configuring"
     ./config.sh \
         --url "${_SHORT_URL}" \
@@ -86,7 +93,7 @@ configure_runner() {
         --labels "${_LABELS}" \
         --runnergroup "${_RUNNER_GROUP}" \
         --unattended \
-        --replace
+        --replace "${_EPHEMERAL}"
 }
 
 # Opt into runner reusage because a value was given

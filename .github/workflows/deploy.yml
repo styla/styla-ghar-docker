@@ -1,0 +1,91 @@
+name: GitHub Actions Runner in Docker - Latest
+on:
+  push:
+    paths-ignore:
+      - Dockerfile.base
+      - README.md
+    branches:
+      - master
+      - develop
+  schedule:
+    - cron:  '59 23 * * *'
+
+jobs:
+  ubuntu_latest_deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Copy Repo Files
+      uses: actions/checkout@master
+    - name: Get GitHub organization or user
+      run: echo 'ORG='$(dirname ${GITHUB_REPOSITORY}) >> $GITHUB_ENV
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: crazy-max/ghaction-docker-buildx@v1
+      with:
+        buildx-version: latest
+    - name: Available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Login
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+    - name: Build
+      uses: nick-invision/retry@v2
+      with:
+        max_attempts: 3
+        retry_on: error
+        timeout_minutes: 120
+        command: docker buildx build -f Dockerfile -t styla/ghar-node:latest --output "type=image,push=true" --platform linux/amd64,linux/arm64 .
+  ubuntu_bionic_deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Copy Repo Files
+      uses: actions/checkout@master
+    - name: Get GitHub organization or user
+      run: echo 'ORG='$(dirname ${GITHUB_REPOSITORY}) >> $GITHUB_ENV
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: crazy-max/ghaction-docker-buildx@v1
+      with:
+        buildx-version: latest
+    - name: Available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Copy Dockerfile
+      run: cp Dockerfile Dockerfile.ubuntu-bionic; sed -i.bak "s/FROM.*/FROM styla\/ghar-node-base:ubuntu-bionic/" Dockerfile.ubuntu-bionic
+    - name: Login
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+    - name: Build
+      uses: nick-invision/retry@v2
+      with:
+        max_attempts: 3
+        retry_on: error
+        timeout_minutes: 120
+        command: docker buildx build -f Dockerfile.ubuntu-bionic -t styla/ghar-node:ubuntu-bionic --output "type=image,push=true" --platform linux/amd64,linux/arm/v7,linux/arm64 .
+
+  debian_deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        release: [buster, bullseye, sid]
+      fail-fast: false
+    steps:
+    - name: Copy Repo Files
+      uses: actions/checkout@master
+    - name: Get GitHub organization or user
+      run: echo 'ORG='$(dirname ${GITHUB_REPOSITORY}) >> $GITHUB_ENV
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: crazy-max/ghaction-docker-buildx@v1
+      with:
+        buildx-version: latest
+    - name: Available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Copy Dockerfile
+      run: cp Dockerfile Dockerfile.debian-${{ matrix.release }}; sed -i.bak "s/FROM.*/FROM styla\/ghar-node-base:debian-${{ matrix.release }}/" Dockerfile.debian-${{ matrix.release }}
+    - name: Login
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+    - name: Build
+      uses: nick-invision/retry@v2
+      with:
+        max_attempts: 3
+        retry_on: error
+        timeout_minutes: 120
+        command: docker buildx build -f Dockerfile.debian-${{ matrix.release }} -t styla/ghar-node:debian-${{ matrix.release }} --output "type=image,push=true" --platform linux/amd64,linux/arm64,linux/arm/v7 .

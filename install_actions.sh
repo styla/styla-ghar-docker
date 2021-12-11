@@ -1,10 +1,8 @@
 #!/bin/bash -ex
-
 GH_RUNNER_VERSION=$1
 TARGETPLATFORM=$2
 
 export TARGET_ARCH="x64"
-
 if [[ $TARGETPLATFORM == "linux/arm/v7" ]]; then
     export TARGET_ARCH="arm"
 elif [[ $TARGETPLATFORM == "linux/arm64" ]]; then
