@@ -46,7 +46,7 @@ jobs:
         max_attempts: 3
         retry_on: error
         timeout_minutes: 120
-        command: docker buildx build -f Dockerfile -t styla/ghar-node:${TAG} --output "type=image,push=true" --platform linux/amd64,linux/arm64 .
+        command: docker buildx build -f Dockerfile -t ${ORG}/ghar-node:${TAG} --output "type=image,push=true" --platform linux/amd64,linux/arm64 .
   ubuntu_bionic_tag:
     runs-on: ubuntu-latest
     needs: create-release
@@ -74,7 +74,7 @@ jobs:
         max_attempts: 3
         retry_on: error
         timeout_minutes: 120
-        command: docker buildx build -f Dockerfile.ubuntu-bionic -t styla/ghar-node:${TAG}-ubuntu-bionic --output "type=image,push=true" --platform linux/amd64,linux/arm/v7,linux/arm64 .
+        command: docker buildx build -f Dockerfile.ubuntu-bionic -t ${ORG}/ghar-node:${TAG}-ubuntu-bionic --output "type=image,push=true" --platform linux/amd64,linux/arm/v7,linux/arm64 .
 
   debian_tag:
     runs-on: ubuntu-latest
@@ -107,4 +107,4 @@ jobs:
         max_attempts: 3
         retry_on: error
         timeout_minutes: 120
-        command: docker buildx build -f Dockerfile.debian-${{ matrix.release }} -t styla/ghar-node:${TAG}-debian-${{ matrix.release }} --output "type=image,push=true" --platform linux/amd64,linux/arm64,linux/arm/v7 .
+        command: docker buildx build -f Dockerfile.debian-${{ matrix.release }} -t ${ORG}/ghar-node:${TAG}-debian-${{ matrix.release }} --output "type=image,push=true" --platform linux/amd64,linux/arm64,linux/arm/v7 .

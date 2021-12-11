@@ -34,7 +34,7 @@ jobs:
         max_attempts: 3
         retry_on: error
         timeout_minutes: 120
-        command: docker buildx build -f Dockerfile.base -t styla/ghar-node-base:latest --output "type=image,push=true" --platform linux/amd64,linux/arm64 .
+        command: docker buildx build -f Dockerfile.base -t ${ORG}/ghar-node-base:latest --output "type=image,push=true" --platform linux/amd64,linux/arm64 .
   ubuntu_base_bionic_deploy:
     runs-on: ubuntu-latest
     steps:
@@ -59,7 +59,7 @@ jobs:
         max_attempts: 3
         retry_on: error
         timeout_minutes: 120
-        command: docker buildx build -f Dockerfile.base.ubuntu-bionic -t styla/ghar-node-base:ubuntu-bionic --output "type=image,push=true" --platform linux/amd64,linux/arm/v7,linux/arm64 .
+        command: docker buildx build -f Dockerfile.base.ubuntu-bionic -t ${ORG}/ghar-node-base:ubuntu-bionic --output "type=image,push=true" --platform linux/amd64,linux/arm/v7,linux/arm64 .
 
   debian_base_deploy:
     runs-on: ubuntu-latest
@@ -89,4 +89,4 @@ jobs:
         max_attempts: 3
         retry_on: error
         timeout_minutes: 120
-        command: docker buildx build -f Dockerfile.base.debian-${{ matrix.release }} -t styla/ghar-node-base:debian-${{ matrix.release }} --output "type=image,push=true" --platform linux/amd64,linux/arm64,linux/arm/v7 .
+        command: docker buildx build -f Dockerfile.base.debian-${{ matrix.release }} -t ${ORG}/ghar-node-base:debian-${{ matrix.release }} --output "type=image,push=true" --platform linux/amd64,linux/arm64,linux/arm/v7 .
