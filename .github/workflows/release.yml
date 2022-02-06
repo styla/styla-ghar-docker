@@ -7,7 +7,8 @@ on:
 jobs:
   create-release:
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted, linux, x64 ]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -21,8 +22,10 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+
   ubuntu_latest_tag:
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted, linux, x64 ]
+
     needs: create-release
     steps:
       - name: Copy Repo Files
