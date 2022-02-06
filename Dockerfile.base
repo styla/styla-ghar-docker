@@ -1,15 +1,9 @@
-FROM ubuntu:focal
-
-# TODO: Ubuntu focal (20.04) has git v2.25, but the minimum needed for GitHub
-# Actions runners is v2.29.  For now, we build git from source.  When updating
-# to hirsute (21.04) or later, we can remove the instructions to build from
-# source in favor of the regular Ubuntu git package.
-ARG GIT_VERSION="2.29.0"
+FROM ubuntu:hirsute
 
 ARG DUMB_INIT_VERSION="1.2.2"
 ARG DOCKER_KEY="7EA0A9C3F273FCD8"
 
-ENV DOCKER_COMPOSE_VERSION="1.27.4"
+ENV DOCKER_COMPOSE_VERSION="1.29.2"
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
@@ -46,13 +40,6 @@ RUN echo en_US.UTF-8 UTF-8 >> /etc/locale.gen \
     dumb-init \
   && pip3 install --no-cache-dir awscliv2 \
   && c_rehash \
-  && cd /tmp \
-  && curl -sL https://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz -o git.tgz \
-  && tar zxf git.tgz \
-  && cd git-${GIT_VERSION} \
-  && ./configure --prefix=/usr \
-  && make \
-  && make install \
   && cd / \
   # Determine the Distro name (Debian, Ubuntu, etc)
   && distro=$(lsb_release -is | awk '{print tolower($0)}') \

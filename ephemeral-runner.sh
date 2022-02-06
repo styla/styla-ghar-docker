@@ -16,7 +16,7 @@ if [[ $rv == 4 ]]; then
     sleep 10
 
     # Now add an adaptive delay, where we loop and check if the Runner is usable
-    # yet.  As soon as it is, break.
+    # yet. As soon as it is, break.
     for i in $(seq 10); do
         if /actions-runner/bin/Runner.Listener --version &>/dev/null; then
             break
