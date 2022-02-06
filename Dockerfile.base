@@ -22,6 +22,7 @@ RUN echo en_US.UTF-8 UTF-8 >> /etc/locale.gen \
     sudo \
     gpg-agent \
     gnupg \
+    git \
     software-properties-common \
     build-essential \
     zlib1g-dev \
