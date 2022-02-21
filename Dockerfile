@@ -9,7 +9,7 @@ FROM styla/ghar-node-base:latest
 ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
 RUN mkdir -p /opt/hostedtoolcache
 
-ARG GH_RUNNER_VERSION="2.285.0"
+ARG GH_RUNNER_VERSION="2.287.1"
 ARG TARGETPLATFORM
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
