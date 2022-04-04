@@ -1,7 +1,7 @@
 #!/bin/bash -ex
-TARGETPLATFORM=$2
+TARGETPLATFORM=$1
 
-export GH_RUNNER_VERSION_LATEST=$(curl https://api.github.com/repos/actions/runner/tags | grep -m 1 name | sed -e 's/^.*name.*: "//' | sed -e 's/",.*$//')
+export GH_RUNNER_VERSION_LATEST=$(curl https://api.github.com/repos/actions/runner/tags | grep -m 1 name | sed -e 's/^.*name.*: "v//' | sed -e 's/",.*$//')
 
 export TARGET_ARCH="x64"
 if [[ $TARGETPLATFORM == "linux/arm/v7" ]]; then
