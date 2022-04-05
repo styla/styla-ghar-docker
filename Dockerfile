@@ -18,7 +18,7 @@ WORKDIR /actions-runner
 COPY install_actions.sh /actions-runner
 
 RUN chmod +x /actions-runner/install_actions.sh \
-  && /actions-runner/install_actions.sh ${GH_RUNNER_VERSION} ${TARGETPLATFORM} \
+  && /actions-runner/install_actions.sh ${TARGETPLATFORM} \
   && rm /actions-runner/install_actions.sh
 
 COPY token.sh entrypoint.sh ephemeral-runner.sh /
