@@ -1,3 +1,3 @@
 # styla-ghar-docker
 
-Update 19.01.
+Update 26.01.
